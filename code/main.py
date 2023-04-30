@@ -155,6 +155,8 @@ class MainWindow(QMainWindow):
             self.warning_label.setText('Заполни строчку названия')
         elif len(self.Edit_timer_name.text()) < 2:
             self.warning_label.setText('Одного символа мало')
+        elif self.ListWidget.count() > 11:
+            self.warning_label.setText('Нельзя более 12 таймеров')
         else:
             self.warning_label.setText('')
             information = self.get_info_for_timer()
@@ -187,7 +189,6 @@ class MainWindow(QMainWindow):
     # Удаление таймера на основном окне по кнопке (Нужно имя таймера, чтобы удалять)
     @Slot()
     def delete_timer_on_main_window(self, TimerName):
-        print('Питаюсб удалить')
         list1 = File.read_file(directory_config)
         for i in list1:
             index = i['id']
@@ -196,7 +197,7 @@ class MainWindow(QMainWindow):
                 self.ListWidget.takeItem(index)
                 File.delete_file(directory_config, TimerName)
                 del index
-        print('Удалил')
+        print('Удалил таймер')
 
 
 if __name__ == '__main__':
