@@ -202,7 +202,7 @@ if __name__ == '__main__':
 
     # Различные переменные
     directory_config = 'TimerConfig.json'
-    directory_icons = 'C:\\Timer_dir\\Icon'
+    directory_icons = 'Icon'
 
     # Переменная для вычесления времени запуска
     start_time = perf_counter()
