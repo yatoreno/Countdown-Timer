@@ -1,5 +1,7 @@
 # Timer
 
+ссылка на exe файл таймера - https://disk.yandex.ru/d/c2px_ZcLL_bwhQ
+
 Это приложение, где можно создавать таймера обратного отсчета
 
 ![image](https://user-images.githubusercontent.com/85769618/235343266-540579d3-a5de-4bdb-a599-7b4ff39ee3b2.png)
