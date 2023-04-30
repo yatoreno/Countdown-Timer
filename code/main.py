@@ -63,11 +63,18 @@ class MainWindow(QMainWindow):
         self.warning_label.setStyleSheet('color: rgb(255, 0, 0);')
         self.warning_label.setGeometry(245, 122, 220, 60)
 
+        # Создание текста подсказок
+        self.text_with_hints = QLabel(self)
+        self.text_with_hints.setText('Чтобы вызвать мини\n версию таймера '
+                                     '2 раза\n кликните по виджету\n таймера!')
+        self.text_with_hints.setGeometry(245, 165, 220, 65)
+
         # Комбобокс, где нужно будет выбирать иконки
         self.combobox_icon = QComboBox(self)
         self.combobox_icon.setGeometry(245, 115, 55, 26)
         self.combobox_icon.setIconSize(QSize(28, 28))
         self.combobox_icon.setMaxVisibleItems(7)
+        # Добавление в combobox иконок для их выбора
         print(f'2. Загрузка Иконок {perf_counter() - start_time:0.6f}')
         for i in os.listdir(path=directory_icons):
             self.combobox_icon.setEditable(False)
@@ -91,9 +98,10 @@ class MainWindow(QMainWindow):
         # Загрузка таймеров из конфига
         self.loading_timers_from_config()
 
+        # Создано для создания тест таймеров
         # self.Test_func()
 
-    # Тест функция
+    # Создано для создания тест таймеров
     def Test_func(self):
         for i in range(20):
             self.create_timer_widget('app.ico', f'Test{i}', '00:00:10')
