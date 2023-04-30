@@ -114,9 +114,10 @@ class Widget(QWidget):
         # Отправляет сигнал для удаления (отправляет имя босса)
         self.delete_timer.emit(self.Timer_Name)
 
-        # Выключает таймер если он запущен (Будет срать ошибки, если поток ни разу не запускался, но мне похуй)
-        #if self.thread.isRunning():
-            #self.stop_timer()
+        # Выключает таймер если он запущен
+        if self.btn_start_timer.text() == 'Стоп':
+            if self.thread.isRunning():
+                self.stop_timer()
 
 
 # Класс для работы в потоке (Потоки нужны, чтобы блять твоя прога не зависала нахуй)
