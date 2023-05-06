@@ -1,4 +1,4 @@
-# Timer
+# Countdown Timer
 
 ссылка на exe файл таймера - https://disk.yandex.ru/d/c2px_ZcLL_bwhQ
 
