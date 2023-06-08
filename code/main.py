@@ -4,9 +4,9 @@ from time import perf_counter
 
 from PySide6 import QtCore, QtGui
 from PySide6.QtCore import Slot, QSize
-from PySide6.QtGui import QIcon, QIntValidator
+from PySide6.QtGui import QIcon, QIntValidator, QFont
 from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QPushButton, QListWidgetItem, QListWidget, QLineEdit, \
-    QComboBox
+    QComboBox, QMessageBox
 
 import Timer_widget
 from work_file import File
@@ -20,6 +20,9 @@ class MainWindow(QMainWindow):
         # Настройки основного окна
         self.setWindowTitle('Timer by yatoreno')
         self.setGeometry(650, 150, 0, 0)
+
+        font = QFont('Times', 12)
+        self.setFont(font)
 
         # Нужно, чтобы в лайнедит можно было писать только цифры
         self.Validator = QIntValidator(self)
@@ -76,10 +79,14 @@ class MainWindow(QMainWindow):
         self.combobox_icon.setMaxVisibleItems(7)
         # Добавление в combobox иконок для их выбора
         print(f'2. Загрузка Иконок {perf_counter() - start_time:0.6f}')
-        for i in os.listdir(path=directory_icons):
-            self.combobox_icon.setEditable(False)
-            icon = QIcon(f"{directory_icons}//{i}")
-            self.combobox_icon.addItem(icon, "")
+        # Выводит сообщение об ошибке если нет директории с иконками
+        try:
+            for i in os.listdir(path=directory_icons):
+                self.combobox_icon.setEditable(False)
+                icon = QIcon(f"{directory_icons}//{i}")
+                self.combobox_icon.addItem(icon, "")
+        except:
+            self.criticalMessage('Создайте в одной директории с таймером\nпапку "Icon" и загрузите в него иконки')
 
         print(f'3. Загружено - {self.combobox_icon.count()} иконок за {perf_counter() - start_time:0.6f}')
 
@@ -95,11 +102,24 @@ class MainWindow(QMainWindow):
         # Здесь назначается функция для кнопки, где собирается инфа и создается таймер
         self.btn_add_new_timer.clicked.connect(self.check_line_edits)
 
-        # Загрузка таймеров из конфига
-        self.loading_timers_from_config()
+        # Выводит сообщение об ошибке если нет в директории конфига
+        try:
+            # Загрузка таймеров из конфига
+            self.loading_timers_from_config()
+        except:
+            self.criticalMessage(
+                'Создайте в одной директории с таймером\nфайл "TimerConfig.json" и запишите в нем "[]"\nлибо скачайте его с github')
 
         # Создано для создания тест таймеров
         # self.Test_func()
+
+    # Функция для вывода диалогового окна с ошибкой
+    def criticalMessage(self, text):
+        msgBox = QMessageBox()
+        msgBox.setWindowTitle('Ошибка')
+        msgBox.setText(text)
+        msgBox.exec()
+        sys.exit()
 
     # Создано для создания тест таймеров
     def Test_func(self):
@@ -155,8 +175,6 @@ class MainWindow(QMainWindow):
             self.warning_label.setText('Заполни строчку названия')
         elif len(self.Edit_timer_name.text()) < 2:
             self.warning_label.setText('Одного символа мало')
-        elif self.ListWidget.count() > 11:
-            self.warning_label.setText('Нельзя более 12 таймеров')
         else:
             self.warning_label.setText('')
             information = self.get_info_for_timer()
@@ -221,6 +239,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     # Добавления стиля приложения и иконки
+    print(resource_path('Style.qss'))
     app.setStyleSheet(open(resource_path('Style.qss'), 'r').read())
     app.setWindowIcon(QtGui.QIcon(resource_path('app.ico')))
 
